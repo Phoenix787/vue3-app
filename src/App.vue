@@ -1,9 +1,18 @@
 <template>
   <div class="app">
-    <form>
+    <form @submit.prevent>
 			<h4>Создание поста</h4>
-      <input class="input" type="text" placeholder="Название" v-model="title"/>
-      <input class="input" type="text" placeholder="Описание" v-model="body"/>
+      <input class="input" 
+			type="text"
+			 placeholder="Название" 
+			v-model="title"
+			@input="title = $event.target.value"/>
+
+      <input class="input" 
+			type="text" 
+			placeholder="Описание" 
+			v-model="body"/>
+
 			<button class="btn" @click="createPost">Создать</button>
     </form>
     <div class="post" v-for="post in posts" :key="post.id">
@@ -17,9 +26,8 @@
 export default {
   data() {
     return {
-			counter: 5,
-			title: null,
-			body: null,
+			title: '',
+			body: '',
       posts: [
         {
           id: 1,
@@ -46,16 +54,16 @@ export default {
   },
   methods: {
 		createPost() {
-			let post = {
-				id: this.counter += 1,
+			const newPost = {
+				id: Date.now(),
 				title: this.title,
 				body: this.body
 			}
 
-			this.title = null;
-			this.body = null;
+			this.posts.push(newPost);
 
-			this.posts.push(post);
+			this.title = '';
+			this.body = '';
 
 		},
 	},
